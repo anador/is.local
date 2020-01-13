@@ -1,0 +1,5 @@
+1;fresh_fish
+2;canned_food
+3;semi_manufactures
+4;caviar
+5;frozen_fish

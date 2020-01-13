@@ -1,0 +1,37 @@
+.header {
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+}
+
+.dropdown {
+  width: 100% !important;
+}
+
+.dropdown-trigger {
+  width: 100%;
+}
+
+.hider {
+  width: 100%;
+}
+
+.dropdown-content {
+  width: 100%;
+}
+
+.dropdown-menu {
+  width: 100%;
+  text-align: center;
+}
+
+.control {
+  text-align: center !important;
+}
+
+.is-active {
+  margin-bottom: 250px;
+}
+
+#report1.is-active {
+  margin-bottom: 170px !important;
+}
