@@ -46,12 +46,15 @@ function prepareGenerateCallTwo()
 
 function prepareGenerateCallThree()
 {
+    if (!strtotime($_GET['date'])) {
+        return 'badQuery';
+    }
     if ($_GET['date'] && $_GET['h1'] && $_GET['h2'] && intval(($_GET['h1']) < intval($_GET['h2']))) {
         if ($result = getCountQueriesPerHour($_GET['date'], $_GET['h1'], $_GET['h2'])[0]) {
             $time = date("Y-m-d H:i:s");
-            $date = $_GET['date'];
-            $h1 = $_GET['h1'];
-            $h2 = $_GET['h2'];
+            $date = htmlentities($_GET['date'], ENT_QUOTES, 'UTF-8');
+            $h1 = (int) htmlentities($_GET['h1'], ENT_QUOTES, 'UTF-8');
+            $h2 = (int) htmlentities($_GET['h2'], ENT_QUOTES, 'UTF-8');
             $quantity = $result;
             return [
                 'date' => $date,
@@ -247,7 +250,7 @@ function prepareGenerateCallThree()
                             </div>
                             </form>
                         </div>
-                        <? if (prepareGenerateCallThree() && prepareGenerateCallThree() != 'err' && !($_GET['date'] < '2018-08-01' || $_GET['date'] > '2018-08-14')) { ?>
+                        <? if (prepareGenerateCallThree() && prepareGenerateCallThree() != 'err' && prepareGenerateCallThree() != 'badQuery' && !($_GET['date'] < '2018-08-01' || $_GET['date'] > '2018-08-14')) { ?>
                             <hr class="dropdown-divider">
                             <div class="dropdown-item">
                                 <p>Ваш отчет <strong>готов!</strong></p>
@@ -258,10 +261,14 @@ function prepareGenerateCallThree()
                         <? } elseif (!prepareGenerateCallThree() && ($_GET['date'] && $_GET['h1'] && $_GET['h2'])) { ?>
                             <hr class="dropdown-divider">
                             <label class="label"><span class="tag is-danger is-large is-light">Второй вводимый час должен быть больше первого</span></label>
-                        <? } elseif (($_GET['date'] && $_GET['h1'] && $_GET['h2']) && ($_GET['date'] < '2018-08-01' || $_GET['date'] > '2018-08-14')) { ?>
+                        <? } elseif (
+                            ($_GET['date'] && $_GET['h1'] && $_GET['h2']) && (
+                                ($_GET['date'] < '2018-08-01' || $_GET['date'] > '2018-08-14') ||
+                                prepareGenerateCallThree() == 'badQuery')
+                        ) { ?>
 
                             <hr class="dropdown-divider">
-                            <label class="label"><span class="tag is-danger is-large is-light">Произошла ошибка. Проверьте правильность введенных дат.</span></label>
+                            <label class="label"><span class="tag is-danger is-large is-light">Произошла ошибка. Проверьте правильность введенных параметров.</span></label>
                         <? } ?>
                     </div>
                 </div>
